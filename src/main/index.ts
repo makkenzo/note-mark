@@ -1,7 +1,9 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { getNotes } from '@/lib'
+import { electronApp, is, optimizer } from '@electron-toolkit/utils'
+import { BrowserWindow, app, ipcMain, shell } from 'electron'
 import { join } from 'path'
-import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { GetNotes } from '@shared/types'
 
 function createWindow(): void {
     // Create the browser window.
@@ -56,6 +58,8 @@ app.whenReady().then(() => {
     app.on('browser-window-created', (_, window) => {
         optimizer.watchWindowShortcuts(window)
     })
+
+    ipcMain.handle('getNotes', (_, ...args: Parameters<GetNotes>) => getNotes(...args))
 
     createWindow()
 
