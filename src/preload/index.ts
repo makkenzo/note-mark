@@ -7,7 +7,7 @@ if (!process.contextIsolated) {
 
 try {
     contextBridge.exposeInMainWorld('context', {
-        // TODO: Add your own API methods here
+        locale: navigator.language,
     })
 } catch (error) {
     console.error(error)
