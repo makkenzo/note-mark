@@ -1,5 +1,4 @@
-import { notesMock } from '@/store/mocks'
-import { NoteInfo } from '@shared/models'
+import { NoteContent, NoteInfo } from '@shared/models'
 import { atom } from 'jotai'
 import { unwrap } from 'jotai/utils'
 
@@ -71,4 +70,28 @@ export const deleteNoteAtom = atom(null, (get, set) => {
     )
 
     set(selectedNoteIndexAtom, null)
+})
+
+export const saveNoteAtom = atom(null, async (get, set, newContent: NoteContent) => {
+    const notes = get(notesAtom)
+
+    const selectedNote = get(selectedNoteAtom)
+
+    if (!selectedNote || !notes) return
+
+    await window.context.writeNote(selectedNote.title, newContent)
+
+    set(
+        notesAtom,
+        notes.map((note) => {
+            if (note.title === selectedNote.title) {
+                return {
+                    ...note,
+                    lastEditTime: Date.now(),
+                }
+            }
+
+            return note
+        }),
+    )
 })
