@@ -1,9 +1,8 @@
 import { NotePreview } from '@/components'
-import { notesMock } from '@/store/mocks'
 import { useNotesList } from '@/hooks/useNotesList'
+import { isEmpty } from 'lodash'
 import { ComponentProps } from 'react'
 import { twMerge } from 'tailwind-merge'
-import { isEmpty } from 'lodash'
 
 export type NotePreviewListProps = ComponentProps<'ul'> & { onSelect?: () => void }
 
